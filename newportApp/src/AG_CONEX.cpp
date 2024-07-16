@@ -535,7 +535,7 @@ asynStatus AG_CONEXAxis::poll(bool *moving)
   }
 
   if (conexModel_ == ModelDL) {
-	  if (status == 0x3c) done=0;
+    if (status == 0x3c) done=0;
   } else {
     state = status & 0xff;
     if ((state == 0x1e) || (state == 0x28)) done = 0;
