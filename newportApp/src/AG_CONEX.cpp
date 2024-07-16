@@ -521,15 +521,14 @@ asynStatus AG_CONEXAxis::poll(bool *moving)
   if (comStatus) goto skip;
   
   if (conexModel_ == ModelDL) {
-	  // The TS command returns 8 characters (1TSabcdefgh).
-	  // The first character (a) represents the status bits in Hexadecimal.
-	  // The next 5 characters (bcdef) represent the error bits in Hexadecimal.
-	  // The last two characters (gh) represent the Controller state in Hexadecimal.
-	  // we read last two hex characters, the state
-	  count = sscanf(pC_->inString_, "%*dTS%*6c%x", &status);
-	  if (count != 1) goto skip;
-  } 
-  else {
+    // The TS command returns 8 characters (1TSabcdefgh).
+    // The first character (a) represents the status bits in Hexadecimal.
+    // The next 5 characters (bcdef) represent the error bits in Hexadecimal.
+    // The last two characters (gh) represent the Controller state in Hexadecimal.
+    // we read last two hex characters, the state
+    count = sscanf(pC_->inString_, "%*dTS%*6c%x", &status);
+    if (count != 1) goto skip;
+  } else {
     // The response string is of the form "1TSabcdef"
     count = sscanf(pC_->inString_, "%*dTS%*4c%x", &status);
     if (count != 1) goto skip;
@@ -537,8 +536,7 @@ asynStatus AG_CONEXAxis::poll(bool *moving)
 
   if (conexModel_ == ModelDL) {
 	  if (status == 0x3c) done=0;
-  }
-  else {
+  } else {
     state = status & 0xff;
     if ((state == 0x1e) || (state == 0x28)) done = 0;
   }
